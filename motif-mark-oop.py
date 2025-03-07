@@ -279,7 +279,7 @@ def create_motif_at_location(g,index, all_motifs):
        all_motifs (list): a list of all our current motif objects
    """
    #for each motif
-   for jindex,wobble in enumerate(motif_wobble_list):
+   for jindex,wobble in enumerate(MOTIF_WOBBLE_LIST):
             #grab relevant color
             color=MOTIF_COLORS[jindex]
             #det motif length 
@@ -294,7 +294,7 @@ def create_motif_at_location(g,index, all_motifs):
                   m.color=color
                   all_motifs.append(m)
 
-def draw_empty_panel(longest_feature):
+def draw_empty_panel(longest_feature, record_of_interest):
    """draw an empty white grid
 
    Args:
@@ -304,7 +304,8 @@ def draw_empty_panel(longest_feature):
        _type_: _description_
    """
    x_dim=longest_feature+50
-   y_dim=300*(len(record_of_interest))+100
+   legend_size=len(open(MOTIFFILE).read().split())*25
+   y_dim=300*(len(record_of_interest))+legend_size
    y_panel_dim=-200
    #get x from function
    surface=cairo.ImageSurface (cairo.FORMAT_ARGB32, x_dim, y_dim)  
@@ -444,7 +445,7 @@ def draw_everything(record_of_interest, longest_feature):
    """
    all_motifs=[]
    #draw white panel to put our info on
-   context, surface, y_panel_dim =draw_empty_panel(longest_feature)
+   context, surface, y_panel_dim =draw_empty_panel(longest_feature, record_of_interest)
    
    #each gene object
    for g in record_of_interest:
@@ -468,7 +469,7 @@ def draw_everything(record_of_interest, longest_feature):
 
    draw_legend(context, y_panel_dim)
    
-   surface.write_to_png (f"{outfile}") # Output to PNG
+   surface.write_to_png (f"{OUTFILE}") # Output to PNG
          
 
 def get_args():
@@ -482,15 +483,15 @@ def get_args():
     return parser.parse_args()
 
 args = get_args()
-infile=args.file
-motiffile=args.motifile
+INFILE=args.file
+MOTIFFILE=args.motifile
 
 #create unique outfile name
-outfile=infile[:infile.rfind(".")]+".png"
+OUTFILE=INFILE[:INFILE.rfind(".")]+".png"
 #determine our wobble sequences
-motif_wobble_list,valid_lens=det_all_wobbles(motiffile)
+MOTIF_WOBBLE_LIST, VALID_LENS=det_all_wobbles(MOTIFFILE)
 #create gene objects and determine the longest gene
-record_of_interest, longest_gene =read_fasta_for_genes(infile)
+RECORD_OF_INTEREST, LONGEST_GENE =read_fasta_for_genes(INFILE)
 #draw everything :)))))))
-draw_everything(record_of_interest, longest_gene)
+draw_everything(RECORD_OF_INTEREST, LONGEST_GENE)
 
