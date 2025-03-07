@@ -1,13 +1,15 @@
 # Motifs
 
-Our goal is to generate a diagram indicating the location of motifs within our
-genes of interest. To do this we will scan through each fasta record looking for
-our motifs of interest (accounting for any existing wobble sequence). Any motifs
-found will be added to our diagram. Each gene/fasta records will be placed
-line-by-line inside our dynamically sized output diagram. Within each gene,
-exons are denoted as black rectangles while introns are indicated by black lines.
+Our goal is to generate a diagram indicating the location of motifs (from a
+motif file) within our genes of interest (from one fasta file).
 
-This diagram is outputted as a `.png`
+In our fasta file, we will scan each record for our motifs of interest
+(accounting for any existing wobble sequences). Any motifs found will be drawn on
+each gene/record within our dynamically sized output diagram.
+
+Genes are drawn to scale and will only span one line in our diagram.
+Within each gene, exons are denoted as black rectangles while introns are
+indicated by black lines. This diagram is outputted as a `.png`
 
 ## Usage
 
